@@ -110,9 +110,9 @@ function draw() {
     cg.setLifetimeEach(14292);
     og.setLifetimeEach(12044);
     text("Game over!", 400, (60/200)*height);
-    textSize((15/200)*height);
-    text("Press r to restart", 350, (80/200)*height);
-    if(keyDown("r")) {
+    textSize((5/200)*height);
+    text("Press the r key or screen to restart", 350, (80/200)*height);
+    if(touches.length > 0 || keyWentDown("r")) {
       gameState = PLAY;
       og.x = 600;
       trex.changeAnimation("running");
