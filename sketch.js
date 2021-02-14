@@ -32,17 +32,17 @@ function preload(){
 
 function setup() {
   background("green")
-  createCanvas(600,200)
+  createCanvas(windowWidth,windowHeight)
   
   //create a trex sprite
-  trex = createSprite(50,160,20,50);
+  trex = createSprite((50/600)*width,(160/200)*height);
   trex.addAnimation("running", trex_running);
   trex.addAnimation("youdied", trexoof)
   trex.scale = 0.5;
   pt = 1;
   
   //create a ground sprite
-  ground = createSprite(200,180,400,20);
+  ground = createSprite((1/3)*width,(9/10)*height,400,20);
   ground.addImage("ground",groundImage);
   ground.x = ground.width /2;
   
@@ -50,7 +50,7 @@ function setup() {
   
   
   //creating invisible ground
-  invisibleGround = createSprite(200,190,400,10);
+  invisibleGround = createSprite(0,(9/10)*height,width,10);
   invisibleGround.visible = false;
   
   cg = new Group();
@@ -79,9 +79,10 @@ function draw() {
     if (ground.x < 0) {
       ground.x = ground.width / 2;
     }
-    if(keyDown("space")&& trex.y >= 100) {
+    if((keyDown("space") || touches.length > 0) && trex.y >= 0.8 * height) {
       trex.velocityY = -10;
       jump.play();
+      touches = []
     }
     trex.velocityY = trex.velocityY + 0.8
     spawnClouds();
@@ -91,8 +92,8 @@ function draw() {
       lose.play();
     }
     fill("white")
-    textSize(25)
-    text("Score: " + Math.round(pt), 45, 45);
+    textSize((12.5/200)*height)
+    text("Score: " + Math.round(pt), 45, (40/200)*height);
     if (pt % 300 < (pt/200)) {
       wee.play();
     }
@@ -104,13 +105,13 @@ function draw() {
     cg.setVelocityXEach(0);
     trex.velocityY=0;
     fill("white")
-    textSize(25)
-    text("Score: " + Math.round(pt), 45, 45);
+    textSize((12.5/200)*height)
+    text("Score: " + Math.round(pt), 45, (40/200)*height);
     cg.setLifetimeEach(14292);
     og.setLifetimeEach(12044);
-    text("Game over!", 400, 50);
-    textSize(15);
-    text("Press r to restart", 350, 100);
+    text("Game over!", 400, (60/200)*height);
+    textSize((15/200)*height);
+    text("Press r to restart", 350, (80/200)*height);
     if(keyDown("r")) {
       gameState = PLAY;
       og.x = 600;
@@ -132,10 +133,10 @@ function draw() {
   if(keyWentDown("h")) {
    hs = 0;
   }
-  textSize(15);
-  text("High score: " + Math.round(hs), 45, 25);
-  textSize(10);
-  text("Press h to reset high score", 155, 15);
+  textSize((7.5/200)*height);
+  text("High score: " + Math.round(hs), 45, (25/200)*height);
+  textSize((5/200)*height);
+  text("Press h to reset high score", 50, (15/200)*height);
 }
  
   
@@ -150,7 +151,7 @@ function spawnClouds(){
     cloud.addImage(cloudi)
     cloud.velocityX = -2;
     cloud.lifetime = 327.5;
-    cloud.y = Math.round(random(1, 100))
+    cloud.y = Math.round(random((1/4)*height), (1/2)*height);
     cloud.depth = trex.depth;
     cg.add(cloud);
     trex.depth = trex.depth + 1;
@@ -160,9 +161,9 @@ function spawnClouds(){
 
 function obs() {
   if (frameCount % 92 === 0) {
-    obstacle = createSprite(600,40,75,43)
+    obstacle = createSprite(width,(9/10)*height,75,43)
     obstacle.velocityX = -6;
-    obstacle.y = 160;
+    obstacle.y = 0.87*height;
     var e = Math.round(random(1, 6));
     switch(e){
       case 1: obstacle.addImage(i1);
@@ -181,7 +182,7 @@ function obs() {
         
     }
     obstacle.scale = 0.7;
-    obstacle.lifetime = 100;
+    obstacle.lifetime = (width/6)+10;
     og.add(obstacle);
   }
 }
