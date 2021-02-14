@@ -121,6 +121,7 @@ function draw() {
       og.setVelocityXEach(-6);
       trex.y = 0;
       og.destroyEach(); 
+      touches = [];
     }
   }
   trex.collide(invisibleGround);
